@@ -10,3 +10,4 @@ from .models import Task
 
 class TaskList(ListView):
     model = Task
+    context_object_name = 'tasks'    # Instead of the default 'object_list'

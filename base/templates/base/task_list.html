@@ -1,3 +1,7 @@
+{% extends "base/main.html" %}
+
+{% block content %}
+
 
 {% if request.user.is_authenticated %}
     <p> {{request.user}} </p>
@@ -34,7 +38,7 @@
     <tr>
 
        <td> {{task.title}} </td>
-       <td> <a href="{% url 'task' task.id %}"> View Task </a> </td>
+       {% comment %} <td> <a href="{% url 'task' task.id %}"> View Task </a> </td> {% endcomment %}
        <td> <a href="{% url 'task-update' task.id %}"> Edit Task </a> </td>
        <td> <a href="{% url 'task-delete' task.id %}"> Delete Task </a> </td>
     
@@ -46,3 +50,6 @@
     {% endfor %}
 
 </table>
+
+
+{% endblock content %}

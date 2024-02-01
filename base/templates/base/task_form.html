@@ -1,3 +1,8 @@
+
+{% extends "base/main.html" %}
+
+{% block content %}
+
 <h3> Task Form </h3>
 <p><a href="{% url 'tasks' %}">Go Back</a></p>
 
@@ -14,3 +19,5 @@
     <input type="submit" value="Submit">
 
 </form>
+
+{% endblock content %}

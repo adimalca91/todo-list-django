@@ -1,5 +1,9 @@
 <!-- We create a form b/c we need to send a post request (to delete) -->
 
+{% extends "base/main.html" %}
+
+{% block content %}
+
 <a href="{% url 'tasks' %}"> Go Back </a>
 
 <form action="" method="POST">
@@ -9,3 +13,5 @@
     <input type="Submit" value="Delete"/>
 
 </form>
+
+{% endblock content %}

@@ -1,4 +1,9 @@
 <!-- Note: the view already created a form for us! -->
+
+{% extends "base/main.html" %}
+
+{% block content %}
+
 <h1> Login </h1>
 
 <form method="POST">
@@ -8,3 +13,6 @@
 </form>
 
 <p> Don't have an acount? <a href="{% url 'register' %}">Register</a> </p>
+
+
+{% endblock content %}

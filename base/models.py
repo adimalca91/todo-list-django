@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+'''
+This is the Task Model which will contain all your todo tasks.
+Note that Django assigns it a pk automatically since we did not specify it explicitly.
+'''
 # One user can have many tasks - one to many relationship.
 class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

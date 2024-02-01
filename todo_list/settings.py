@@ -122,3 +122,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+'''
+How to tell the app that any unauthenticated user / not logged in user who tries to GET the
+home page  (which is the Task List page) should be re-directed to the login page / view.
+'''
+LOGIN_URL = 'login'  # Added with the use of a MIXIN - LoginRequiredMixin in the TaskList view

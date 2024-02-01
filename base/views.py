@@ -7,6 +7,8 @@ from django.urls import reverse_lazy  # Redirects the user to a certain part of 
 
 from django.contrib.auth.views import LoginView, LogoutView
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Task
 
 # Create your views here.
@@ -21,27 +23,26 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('tasks')
     
-# class CustomLogOutView(LogoutView):
-#     template_name = 'base/logout.html'
-#     #fields = '__all__'
-#     #next_page='login'
-#     redirect_authenticated_user = True
-    
-#     def get_success_url(self):
-#         return reverse_lazy('login')
-
 
 ''' These are going to be the CRUD operations '''
 
 # def taskList(request):
 #     return HttpResponse("Testing the url connection and view function")
 
-class TaskList(ListView):
+'''
+To restrict our Task List view we use the MIXIN.
+So, if out user is NOT logged in it redirects us utomatically, so we need to add something in settings.py - 
+LOGIN_URL and then we enter the address to redirect the user if they are NOT logged in / authenticated.
+'''
+class TaskList(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'tasks'   # Instead of the default 'object_list' - this is the queryset of the tasks (python representation of the model)
 
-
-class TaskDetail(DetailView):
+'''
+To restrict the user from getting the Task Detail view we use the MIXIN.
+MUST be added before the View.
+'''
+class TaskDetail(LoginRequiredMixin, DetailView):
     model = Task
     context_object_name = 'task'   # Instead of the default 'object'
     # template_name = 'base/task.html' # This allows us to change the default naming of the html template
@@ -53,7 +54,7 @@ Also when we create an item / a task I want you to be redirected to a different 
 Note - we either need the 'field' attribute or we can create our own ModelForm and just set the 'form_class' 
 attribute to the ModelForm we created. Here we use the 'fields' attribute instead.
 '''
-class TaskCreate(CreateView):
+class TaskCreate(LoginRequiredMixin, CreateView):
     # Default template is task_form.html
     model = Task
     fields = '__all__'  # We want to list out all the items from the Task Model in the Form
@@ -64,7 +65,7 @@ This view is supposed to take in an item / a task, it suppose to pre-fill a form
 submit it, just like the CreateView creates an item then the UpdateView will modify the data.
 
 '''
-class TaskUpdate(UpdateView):
+class TaskUpdate(LoginRequiredMixin, UpdateView):
     # Default template is also task_form.html
     model = Task
     fields = '__all__'
@@ -75,7 +76,7 @@ class TaskUpdate(UpdateView):
 Renders a confirmation page to ensure you want to delete the task and then when we send a POST
 request it will delete that item.
 '''
-class TaskDelete(DeleteView):
+class TaskDelete(LoginRequiredMixin, DeleteView):
     # Default template is also task_confirm_delete.html
     model = Task
     context_object_name = 'task' # The default is 'object2'

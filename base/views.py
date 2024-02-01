@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy                # Redirects the user to a certain part of our application
+from django.urls import reverse_lazy  # Redirects the user to a certain part of our application
 
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 from .models import Task
 
@@ -20,6 +20,15 @@ class CustomLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('tasks')
+    
+# class CustomLogOutView(LogoutView):
+#     template_name = 'base/logout.html'
+#     #fields = '__all__'
+#     #next_page='login'
+#     redirect_authenticated_user = True
+    
+#     def get_success_url(self):
+#         return reverse_lazy('login')
 
 
 ''' These are going to be the CRUD operations '''

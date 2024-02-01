@@ -1,7 +1,11 @@
 
 {% if request.user.is_authenticated %}
     <p> {{request.user}} </p>
-    <a href=""> Logout </a>
+    {% comment %} <a href="{% url 'logout' %}"> Logout </a> {% endcomment %} <!-- This is using GET request and it's not allowed anymore in Django! Only vie POST -->
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+    </form>
 
 {% else %}
     <a href="{% url 'login' %}"> Login </a>

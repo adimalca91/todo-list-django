@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.list import ListView
@@ -37,8 +38,19 @@ LOGIN_URL and then we enter the address to redirect the user if they are NOT log
 class TaskList(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'tasks'   # Instead of the default 'object_list' - this is the queryset of the tasks (python representation of the model)
+    
+    '''
+    Also - we need to make sure that each user sees his own tasks and that one user can't log-in on his
+    username and password, but see other user's tasks.
+    '''
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = context['tasks'].filter(user=self.request.user)
+        context['count'] = context['tasks'].filter(complete=False).count()
+        return context
 
-'''
+    
+'''       
 To restrict the user from getting the Task Detail view we use the MIXIN.
 MUST be added before the View.
 '''

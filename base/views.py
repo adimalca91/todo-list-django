@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy                # Redirects the user to a certain part of our application 
 
 from .models import Task
@@ -44,4 +44,15 @@ class TaskUpdate(UpdateView):
     # Default template is also task_form.html
     model = Task
     fields = '__all__'
+    success_url = reverse_lazy('tasks')
+    
+
+'''
+Renders a confirmation page to ensure you want to delete the task and then when we send a POST
+request it will delete that item.
+'''
+class TaskDelete(DeleteView):
+    # Default template is also task_confirm_delete.html
+    model = Task
+    context_object_name = 'task' # The default is 'object2'
     success_url = reverse_lazy('tasks')

@@ -1,0 +1,11 @@
+<!-- We create a form b/c we need to send a post request (to delete) -->
+
+<a href="{% url 'tasks' %}"> Go Back </a>
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <p> Are ypu sure you want to delete this task? "{{task}}" </p>
+    <input type="Submit" value="Delete"/>
+
+</form>

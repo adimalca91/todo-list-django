@@ -15,7 +15,13 @@
 <hr>
 
 <h1> My ViewList Template {{color}} </h1>
+
 <p><a href="{% url 'task-create' %}"> Add Task to your Task List </a></p>
+
+<form method='GET'>
+    <input type="text" name="search-area"/>
+    <input type="submit" value="Search"/>
+</form>
 
 <table>
     <tr>

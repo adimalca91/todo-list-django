@@ -1,14 +1,15 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy  # Redirects the user to a certain part of our application
 
 from django.contrib.auth.views import LoginView, LogoutView
-
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login  # This import is a method
 
 from .models import Task
 
@@ -19,10 +20,30 @@ Bu default this LoginView already provides us with a form
 class CustomLoginView(LoginView):
     template_name = 'base/login.html'
     fields = '__all__'
-    redirect_authenticated_user = True
+    redirect_authenticated_user = True  # Ensure that users who are authenicated are redirected
     
     def get_success_url(self):
         return reverse_lazy('tasks')
+    
+class RegisterPage(FormView):
+    template_name = 'base/register.html'
+    form_class = UserCreationForm    # This is a form with registration info - Username and Password
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('tasks')
+    
+    ''' Redirect the user once the register form is submitted '''
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:  # If the user was successfully created
+           login(self.request, user)  # the method we imported
+        return super(RegisterPage, self).form_valid(form)
+    
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('tasks')
+        return(RegisterPage, self).get(*args, **kwargs)
+        
+    
     
 
 ''' These are going to be the CRUD operations '''
@@ -69,8 +90,17 @@ attribute to the ModelForm we created. Here we use the 'fields' attribute instea
 class TaskCreate(LoginRequiredMixin, CreateView):
     # Default template is task_form.html
     model = Task
-    fields = '__all__'  # We want to list out all the items from the Task Model in the Form
+    fields = ['title', 'description', 'complete']  # We want to list out all the items from the Task Model in the Form
     success_url = reverse_lazy('tasks') # This parameter is the url name attribute from utls.py
+    
+    
+    '''
+    When a user wants to create a task it's username will be chosen automatically.
+    '''
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TaskCreate, self).form_valid(form)
+    
     
 '''
 This view is supposed to take in an item / a task, it suppose to pre-fill a form, and then once we
@@ -80,7 +110,7 @@ submit it, just like the CreateView creates an item then the UpdateView will mod
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     # Default template is also task_form.html
     model = Task
-    fields = '__all__'
+    fields = ['title', 'description', 'complete']
     success_url = reverse_lazy('tasks')
     
 
@@ -93,3 +123,5 @@ class TaskDelete(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = 'task' # The default is 'object2'
     success_url = reverse_lazy('tasks')
+
+

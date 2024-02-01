@@ -3,21 +3,28 @@
 
 {% block content %}
 
-<h3> Task Form </h3>
-<p><a href="{% url 'tasks' %}">Go Back</a></p>
+<div class="header-bar">
+    <a href="{% url 'tasks' %}">&#8592; Back</a> <!-- Back arrow symbol code -->
+</div>
+
+{% comment %} <a href="{% url 'tasks' %}">Go Back</a> {% endcomment %}
 
 <!-- Send the form to the same url, therefore action is empty string -->
 <!--
     Note: Django already created the ModelForm and it passes it in, and by default the form name
     is already 'form'
 -->
-<form action="" method="POST"> 
-    {% csrf_token %}
 
-    {{form.as_p}}
+<div class="card-body">
+    <form action="" method="POST"> 
+        {% csrf_token %}
+    
+        {{form.as_p}}
+    
+        <input class="button" type="submit" value="Submit">
+    
+    </form>
+</div>
 
-    <input type="submit" value="Submit">
-
-</form>
 
 {% endblock content %}

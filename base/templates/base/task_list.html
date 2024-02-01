@@ -2,19 +2,27 @@
 
 {% block content %}
 
+<div class='header-bar'>
+    <div>
+        <h1> Hello {{request.user|title}} </h1>
+        <h3 style="margin:0"> You have <i> {{count}} </i> incomplete task{{count|pluralize}}</h3>
 
-{% if request.user.is_authenticated %}
-    <p> {{request.user}} </p>
+    </div>
+
+    {% if request.user.is_authenticated %}
+    {% comment %} <p> {{request.user}} </p> {% endcomment %}
     {% comment %} <a href="{% url 'logout' %}"> Logout </a> {% endcomment %} <!-- This is using GET request and it's not allowed anymore in Django! Only vie POST -->
     <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">logout</button>
+        <button type="submit">Logout</button>
     </form>
 
-{% else %}
-    <a href="{% url 'login' %}"> Login </a>
+    {% else %}
+        <a href="{% url 'login' %}"> Login </a>
+    {% endif %}
 
-{% endif %}
+</div>
+
 
 <hr>
 

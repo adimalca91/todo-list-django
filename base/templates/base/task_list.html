@@ -12,7 +12,8 @@
     <tr>
 
        <td> {{task.title}} </td>
-       <td> <a href="{% url 'task' task.id %}"> View Page </a> </td>
+       <td> <a href="{% url 'task' task.id %}"> View Task </a> </td>
+       <td> <a href="{% url 'task-update' task.id %}"> Edit Task </a> </td>
     
     </tr>
 

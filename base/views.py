@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy                # Redirects the user to a certain part of our application 
 
 from .models import Task
@@ -34,3 +34,14 @@ class TaskCreate(CreateView):
     model = Task
     fields = '__all__'  # We want to list out all the items from the Task Model in the Form
     success_url = reverse_lazy('tasks') # This parameter is the url name attribute from utls.py
+    
+'''
+This view is supposed to take in an item / a task, it suppose to pre-fill a form, and then once we
+submit it, just like the CreateView creates an item then the UpdateView will modify the data.
+
+'''
+class TaskUpdate(UpdateView):
+    # Default template is also task_form.html
+    model = Task
+    fields = '__all__'
+    success_url = reverse_lazy('tasks')

@@ -1,0 +1,8 @@
+<!-- Note: the view already created a form for us! -->
+<h1> Login </h1>
+
+<form method="POST">
+    {%csrf_token%}
+    {{form.as_p}}
+    <input type="Submit" value="Login">
+</form> 

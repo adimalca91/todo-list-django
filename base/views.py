@@ -9,6 +9,8 @@ from .models import Task
 
 # Create your views here.
 
+''' These are going to be the CRUD operations '''
+
 # def taskList(request):
 #     return HttpResponse("Testing the url connection and view function")
 

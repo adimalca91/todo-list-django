@@ -1,1 +1,15 @@
 <h3> Task Form </h3>
+
+<!-- Send the form to the same url, therefore action is empty string -->
+<!--
+    Note: Django already created the ModelForm and it passes it in, and by default the form name
+    is already 'form'
+-->
+<form action="" method="POST"> 
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <input type="submit" value="Submit">
+
+</form>

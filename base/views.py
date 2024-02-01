@@ -26,6 +26,8 @@ class TaskDetail(DetailView):
 By default the CreateView already gives us a ModelForm to work with. So, it will take our Task Model
 and it will create all the fields by default for us, therefore we need to specify what fields we want in our Form.
 Also when we create an item / a task I want you to be redirected to a different url - use "succecc_url" attribute.
+Note - we either need the 'field' attribute or we can create our own ModelForm and just set the 'form_class' 
+attribute to the ModelForm we created. Here we use the 'fields' attribute instead.
 '''
 class TaskCreate(CreateView):
     # Default template is task_form.html

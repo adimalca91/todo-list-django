@@ -11,10 +11,11 @@ from .models import Task
 
 class TaskList(ListView):
     model = Task
-    context_object_name = 'tasks'    # Instead of the default 'object_list'
+    context_object_name = 'tasks'   # Instead of the default 'object_list' - this is the queryset of the tasks (python representation of the model)
 
 
 class TaskDetail(DetailView):
     model = Task
-    context_object_name = 'task'    # Instead of the default 'object'
+    context_object_name = 'task'   # Instead of the default 'object'
+    # template_name = 'base/task.html' # This allows us to change the default naming of the html template
     
